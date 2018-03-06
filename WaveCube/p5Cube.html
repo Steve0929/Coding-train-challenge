@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+  </head>
+  <body>
+
+<script >
+let angle= 0;
+let w = 34;
+let ma;
+ma = Math.atan(1/Math.sqrt(2));
+let maxD = 0;
+
+
+function setup() {
+  createCanvas(400, 400,WEBGL);
+  maxD = dist(0,0,200,200);
+}
+
+function draw() {
+  background(237,237,237);
+  ortho(-400,400,400,-400,0,1000);
+  rotateX(-ma);
+  rotateY(-QUARTER_PI);
+  directionalLight(230,228,176, 1, 0, 0); //yellow
+  directionalLight(130,186,180, 0, -1, 0); //green
+
+  //ambientLight(130,186,180);
+  ambientLight(42,76,72);
+
+  for (let z = 0; z < height; z+= w) {
+      for (let x = 0; x < width; x += w) {
+        push();
+        let d = dist(x,z,width/2,height/2);
+        let offset = map(d,0,maxD,-PI,PI);
+        let a = angle+offset;
+        let h = map(sin(a),-1,1,0,300);
+        translate(x-width/2,0,z-height/2)
+        //normalMaterial();
+        //ambientMaterial(130,186,180);
+        //specularMaterial(244,243,220);
+        specularMaterial(245,244,224);
+
+        box(w,h,w);
+        pop();
+      }
+  }
+
+  angle -= 0.16;
+}
+
+</script>
+  </body>
+</html>
