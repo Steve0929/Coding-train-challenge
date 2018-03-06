@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <script src="io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+  </head>
+  <body>
+
+</html>
+
+<script>
+var celula;
+var celulas = [];
+var grid = [];
+var zoom = 1;
+
+var cols;
+var rows;
+var tt = 60;
+
+
+function setup() {
+  createCanvas(600, 400);
+  cols =(2*width/tt);
+  rows = (2*height/tt);
+  for (var j = 0; j < rows; j++) {
+      for (var i= 0; i< cols; i++) {
+           var cuadri = new Cuadri(i,j);
+           grid.push(cuadri);
+      }
+    }
+
+  celula = new Celula(0, 0,64);
+  //var aa = ranColor();
+  //console.log(aa);
+
+  for (var i = 0; i <50; i++) {
+       var randX = random(-2*width, 2*width);
+       var randY = random(-2*height, 2*height);
+       var randSize = random(16, 24);
+       celulas[i] = new Celula(randX, randY , randSize);
+
+  }
+
+}
+
+function draw() {
+  background(255);
+
+  newZoom = 48/ celula.radio;
+  zoom = lerp(zoom, newZoom, 0.1);
+
+  translate(width/2 , height/2 );
+  scale(zoom);
+  translate( -celula.pos.x, -celula.pos.y);
+
+  for (var i = 0; i < grid.length; i++) {
+      grid[i].show();
+  }
+
+  celula.playerShow();
+  celula.update();
+
+
+
+  for (var i = celulas.length -1 ; i >= 0; i--) {
+       celulas[i].show();
+       if(celula.come(celulas[i])){
+          celulas.splice(i,1);
+          var randX = random(-width, width);
+          var randY = random(-height, height);
+          //celulas[i] = new Celula(randX, randY , 16);
+       }
+  }
+
+}
+
+
+function Cuadri(i,j){
+this.i = i;
+this.j = j;
+
+this.show = function(){
+  var x = this.i*tt;
+  var y = this.j*tt;
+  strokeWeight(1);
+  stroke(200);
+  fill(250);
+  rect(x,y,tt,tt);
+  rect(-x,y,tt,tt);
+  rect(x,-y,tt,tt);
+  rect(-x,-y,tt,tt);
+}
+
+}
+
+
+</script>

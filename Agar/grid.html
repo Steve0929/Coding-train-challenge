@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <script src="io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+  </head>
+  <body>
+
+</html>
+
+<script>
+var celula;
+var celulas = [];
+var grid = [];
+var zoom = 1;
+
+var grid = [];
+var cols;
+var rows;
+var tt = 40;
+
+
+function setup() {
+  createCanvas(400, 400);
+
+
+  cols =(width/tt);
+  rows = (height/tt);
+  for (var j = 0; j < rows; j++) {
+      for (var i= 0; i< cols; i++) {
+           var cell = new Cell(i,j);
+           grid.push(cell);
+      }
+    }
+    celula = new Celula(0, 0,64);
+    //var aa = ranColor();
+    //console.log(aa);
+
+    for (var i = 0; i <50; i++) {
+         var randX = random(-width, width);
+         var randY = random(-height, height);
+         celulas[i] = new Celula(randX, randY , 16);
+
+    }
+
+}
+
+function draw() {
+  
+    for (var i = 0; i < grid.length; i++) {
+      grid[i].show();
+    }
+    background(51);
+    newZoom = 64/ celula.radio;
+    zoom = lerp(zoom, newZoom, 0.5);
+
+
+}
+
+
+function Cell(i,j){
+this.i = i;
+this.j = j;
+
+this.show = function(){
+  var x = this.i*tt;
+  var y = this.j*tt;
+  stroke(255);
+  noFill();
+  rect(x,y,tt,tt);
+  }
+
+}
+
+
+</script>
